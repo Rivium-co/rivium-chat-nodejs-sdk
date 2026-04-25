@@ -1,0 +1,36 @@
+{
+  "name": "@rivium/chat",
+  "version": "0.1.0",
+  "description": "RiviumChat Node.js SDK — server-side chat rooms, messages, reactions, pins, and webhooks",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "rivium",
+    "rivium-chat",
+    "chat",
+    "messaging",
+    "rooms",
+    "realtime"
+  ],
+  "author": "Rivium <support@rivium.co>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Rivium-co/rivium-chat-nodejs-sdk.git"
+  },
+  "homepage": "https://rivium.co/cloud/rivium-chat",
+  "engines": {
+    "node": ">=16"
+  },
+  "devDependencies": {
+    "@types/node": "^25.2.0",
+    "typescript": "^5.9.3"
+  }
+}
