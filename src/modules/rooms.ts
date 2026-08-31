@@ -44,4 +44,16 @@ export class Rooms {
   async addParticipant(roomId: string, options: AddParticipantOptions): Promise<Participant> {
     return this.client.post<Participant>(`/api/v1/rooms/${roomId}/participants`, options);
   }
+
+  /** Remove a participant from a room. Idempotent — succeeds whether the participant existed or not. */
+  async removeParticipant(roomId: string, externalUserId: string): Promise<void> {
+    await this.client.delete<void>(
+      `/api/v1/rooms/${roomId}/participants/${encodeURIComponent(externalUserId)}`,
+    );
+  }
+
+  /** Permanently delete a room and all its data. */
+  async delete(roomId: string): Promise<{ success: boolean }> {
+    return this.client.delete<{ success: boolean }>(`/api/v1/rooms/${roomId}`);
+  }
 }

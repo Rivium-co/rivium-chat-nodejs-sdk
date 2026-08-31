@@ -1,6 +1,6 @@
 {
   "name": "@rivium/chat",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "RiviumChat Node.js SDK — server-side chat rooms, messages, reactions, pins, and webhooks",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

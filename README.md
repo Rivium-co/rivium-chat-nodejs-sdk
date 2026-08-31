@@ -88,6 +88,8 @@ riviumChat.rooms.get(roomId)                         // Get room by ID
 riviumChat.rooms.getByExternalId(externalId)          // Get room by external ID
 riviumChat.rooms.list(userId)                        // List rooms for a user
 riviumChat.rooms.addParticipant(roomId, options)      // Add participant to room
+riviumChat.rooms.removeParticipant(roomId, userId)    // Remove participant (idempotent)
+riviumChat.rooms.delete(roomId)                       // Permanently delete a room
 riviumChat.rooms.getUnreadSummary(userId)             // Get unread counts
 ```
 
