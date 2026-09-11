@@ -79,6 +79,28 @@ const summary = await riviumChat.rooms.getUnreadSummary('user-1');
 
 ## API Reference
 
+### Users — verified identity (recommended)
+
+Your API key ships inside every app, so it cannot prove who a user is. Mint a
+short-lived token here and hand it to the client SDK's `tokenProvider`:
+
+```typescript
+// Express example — your own login protects the route
+app.get('/chat-token', requireLogin, async (req, res) => {
+  const { token } = await riviumChat.users.createToken({ userId: req.user.id });
+  res.json({ token });
+});
+```
+
+```typescript
+riviumChat.users.createToken({ userId, info?, ttl? })  // 1 h default, 24 h max
+riviumChat.users.revokeTokens(userId)                  // on logout, password change, ban
+```
+
+`revokeTokens` invalidates every token issued to that user so far; it takes
+effect within about 15 seconds across servers. Client SDKs then ask your
+endpoint for a new token, so a signed-out user gets nothing.
+
 ### Rooms
 
 ```typescript

@@ -206,3 +206,27 @@ export interface GetTokenOptions {
   userId: string;
   info?: Record<string, any>;
 }
+
+// ─── User tokens ────────────────────────────────────────────────
+
+export interface CreateUserTokenOptions {
+  /** Your own id for the user the token is for. */
+  userId: string;
+  /** Public connection info (e.g. displayName) visible to the realtime layer. */
+  info?: Record<string, any>;
+  /** Lifetime in seconds. Default 3600 (1 h), max 86400 (24 h). */
+  ttl?: number;
+}
+
+export interface UserToken {
+  /** Hand this to the client SDK's tokenProvider. */
+  token: string;
+  /** ISO timestamp; the client SDKs refresh shortly before it. */
+  expiresAt: string;
+  userId: string;
+}
+
+export interface RevokeTokensResult {
+  /** Tokens issued at or before this moment are no longer accepted. */
+  revokedBefore: string;
+}
