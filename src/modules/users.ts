@@ -1,5 +1,22 @@
 import { HttpClient } from '../client';
-import { CreateUserTokenOptions, UserToken, RevokeTokensResult } from '../types';
+import {
+  CreateUserTokenOptions,
+  UserToken,
+  RevokeTokensResult,
+  NotificationSettings,
+  UpdateNotificationSettingsOptions,
+} from '../types';
+
+export function settingsBody(userId: string, settings: UpdateNotificationSettingsOptions) {
+  const { mutedUntil, ...rest } = settings;
+  return {
+    userId,
+    ...rest,
+    ...(mutedUntil !== undefined && {
+      mutedUntil: mutedUntil instanceof Date ? mutedUntil.toISOString() : mutedUntil,
+    }),
+  };
+}
 
 /**
  * User tokens — how your app proves **who** the user is.
@@ -34,6 +51,29 @@ export class Users {
   async revokeTokens(userId: string): Promise<RevokeTokensResult> {
     return this.client.post<RevokeTokensResult>(
       `/api/v1/users/${encodeURIComponent(userId)}/revoke-tokens`,
+    );
+  }
+
+  /** A user's chat push settings for your whole app. */
+  async getNotificationSettings(userId: string): Promise<NotificationSettings> {
+    return this.client.get<NotificationSettings>('/api/v1/users/notification-settings', { userId });
+  }
+
+  /**
+   * Changes a user's chat push settings for your whole app, e.g. to turn chat
+   * pushes off from your own settings screen.
+   *
+   * ```ts
+   * await chat.users.updateNotificationSettings('user-1', { pushLevel: 'none' });
+   * ```
+   */
+  async updateNotificationSettings(
+    userId: string,
+    settings: UpdateNotificationSettingsOptions,
+  ): Promise<NotificationSettings> {
+    return this.client.put<NotificationSettings>(
+      '/api/v1/users/notification-settings',
+      settingsBody(userId, settings),
     );
   }
 }

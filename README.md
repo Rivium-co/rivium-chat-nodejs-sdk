@@ -95,6 +95,8 @@ app.get('/chat-token', requireLogin, async (req, res) => {
 ```typescript
 riviumChat.users.createToken({ userId, info?, ttl? })  // 1 h default, 24 h max
 riviumChat.users.revokeTokens(userId)                  // on logout, password change, ban
+riviumChat.users.getNotificationSettings(userId)                // App-wide push settings
+riviumChat.users.updateNotificationSettings(userId, options)    // Turn chat pushes off, mentions only, mute
 ```
 
 `revokeTokens` invalidates every token issued to that user so far; it takes
@@ -113,6 +115,8 @@ riviumChat.rooms.addParticipant(roomId, options)      // Add participant to room
 riviumChat.rooms.removeParticipant(roomId, userId)    // Remove participant (idempotent)
 riviumChat.rooms.delete(roomId)                       // Permanently delete a room
 riviumChat.rooms.getUnreadSummary(userId)             // Get unread counts
+riviumChat.rooms.getNotificationSettings(roomId, userId)             // A user's push settings for a room
+riviumChat.rooms.updateNotificationSettings(roomId, userId, options) // Mute a room or mentions only
 ```
 
 ### Messages
@@ -181,6 +185,31 @@ await riviumChat.webhooks.setPushTemplates({
   },
 });
 ```
+
+### Notification settings
+
+Let each user decide which chat pushes they get. Nothing changes until you set something.
+
+```typescript
+// Turn off chat pushes for a user across your app
+await riviumChat.users.updateNotificationSettings('user-1', { pushLevel: 'none' });
+
+// Only push when mentioned, and no reaction pushes
+await riviumChat.users.updateNotificationSettings('user-1', {
+  pushLevel: 'mentions',
+  disabledEvents: ['reaction'],
+});
+
+// Mute one room for 8 hours, then unmute
+await riviumChat.rooms.updateNotificationSettings(roomId, 'user-1', {
+  mutedUntil: new Date(Date.now() + 8 * 3600_000),
+});
+await riviumChat.rooms.updateNotificationSettings(roomId, 'user-1', { mutedUntil: null });
+
+await riviumChat.users.getNotificationSettings('user-1');
+```
+
+`pushLevel` is `all` (default), `mentions` or `none`. App-wide and room settings both apply: a push is sent only if neither blocks it.
 
 ## Links
 

@@ -5,7 +5,10 @@ import {
   AddParticipantOptions,
   Participant,
   UnreadSummary,
+  NotificationSettings,
+  UpdateNotificationSettingsOptions,
 } from '../types';
+import { settingsBody } from './users';
 
 export class Rooms {
   constructor(private client: HttpClient) {}
@@ -55,5 +58,32 @@ export class Rooms {
   /** Permanently delete a room and all its data. */
   async delete(roomId: string): Promise<{ success: boolean }> {
     return this.client.delete<{ success: boolean }>(`/api/v1/rooms/${roomId}`);
+  }
+
+  /** A participant's push settings for one room. */
+  async getNotificationSettings(roomId: string, userId: string): Promise<NotificationSettings> {
+    return this.client.get<NotificationSettings>(
+      `/api/v1/rooms/${roomId}/notification-settings`,
+      { userId },
+    );
+  }
+
+  /**
+   * Changes a participant's push settings for one room: mute it, or only
+   * notify on mentions. The user must be in the room.
+   *
+   * ```ts
+   * await chat.rooms.updateNotificationSettings(roomId, 'user-1', { pushLevel: 'mentions' });
+   * ```
+   */
+  async updateNotificationSettings(
+    roomId: string,
+    userId: string,
+    settings: UpdateNotificationSettingsOptions,
+  ): Promise<NotificationSettings> {
+    return this.client.put<NotificationSettings>(
+      `/api/v1/rooms/${roomId}/notification-settings`,
+      settingsBody(userId, settings),
+    );
   }
 }

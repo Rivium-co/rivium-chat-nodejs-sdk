@@ -230,3 +230,33 @@ export interface RevokeTokensResult {
   /** Tokens issued at or before this moment are no longer accepted. */
   revokedBefore: string;
 }
+
+// ─── Notification settings ───
+
+/** `all` (default), `mentions` (only when mentioned) or `none` (no chat pushes). */
+export type PushLevel = 'all' | 'mentions' | 'none';
+
+export interface NotificationSettings {
+  userId: string;
+  /** `app` for the user's app-wide settings, `room` for one room. */
+  scope: 'app' | 'room';
+  roomId?: string;
+  pushLevel: PushLevel;
+  /** ISO timestamp; no chat pushes until then. */
+  mutedUntil: string | null;
+  /** Push event types turned off, e.g. `reaction`. */
+  disabledEvents: string[];
+  updatedAt: string | null;
+}
+
+/** Only the fields you pass are changed. */
+export interface UpdateNotificationSettingsOptions {
+  pushLevel?: PushLevel;
+  /** A Date or ISO string to mute until; `null` unmutes. */
+  mutedUntil?: Date | string | null;
+  /**
+   * Event types to turn off: new_message, file_shared, mention, reaction,
+   * message_pinned, room_created, participant_joined, participant_removed.
+   */
+  disabledEvents?: string[];
+}
