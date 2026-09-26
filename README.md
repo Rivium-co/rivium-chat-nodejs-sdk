@@ -37,13 +37,17 @@ const riviumChat = new RiviumChat({
 ### Create a Room
 
 ```typescript
-const room = await riviumChat.rooms.findOrCreate({
+const { room, created } = await riviumChat.rooms.findOrCreate({
   externalId: 'order-123',
   participants: [
     { externalUserId: 'user-1', displayName: 'Alice', role: 'member' },
     { externalUserId: 'user-2', displayName: 'Bob', role: 'member' },
   ],
 });
+
+if (created) {
+  // first time this room existed — send a welcome, seed state, and so on
+}
 ```
 
 ### Send a Message
@@ -107,7 +111,7 @@ endpoint for a new token, so a signed-out user gets nothing.
 
 ```typescript
 riviumChat.rooms.create(options)                    // Create a room
-riviumChat.rooms.findOrCreate(options)               // Find or create by externalId
+riviumChat.rooms.findOrCreate(options)               // -> { room, created }
 riviumChat.rooms.get(roomId)                         // Get room by ID
 riviumChat.rooms.getByExternalId(externalId)          // Get room by external ID
 riviumChat.rooms.list(userId)                        // List rooms for a user

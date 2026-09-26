@@ -1,3 +1,10 @@
+## [0.2.0] - 2026-09-26
+
+- Changed: `rooms.findOrCreate()` returns `{ room, created }`, which is what the
+  API has always answered. It was declared as returning a `Room`, so every field
+  read as `undefined`. Use `const { room, created } = await ...`; `created`
+  tells you whether this call is what created the room.
+
 ## [0.1.4] - 2026-09-26
 
 - Added: `lastMessage` and `unreadCount` on `Room`. A chat list can show the

@@ -174,6 +174,18 @@ export interface CreateRoomOptions {
   metadata?: Record<string, any>;
 }
 
+/**
+ * What `POST /rooms/find-or-create` returns: the room, and whether this call
+ * is what created it.
+ *
+ * `created` is worth having - it tells you when to seed a first message or a
+ * welcome, without a second lookup.
+ */
+export interface FindOrCreateRoomResult {
+  room: Room;
+  created: boolean;
+}
+
 export interface AddParticipantOptions {
   externalUserId: string;
   displayName?: string;

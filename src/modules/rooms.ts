@@ -2,6 +2,7 @@ import { HttpClient } from '../client';
 import {
   Room,
   CreateRoomOptions,
+  FindOrCreateRoomResult,
   AddParticipantOptions,
   Participant,
   UnreadSummary,
@@ -18,9 +19,16 @@ export class Rooms {
     return this.client.post<Room>('/api/v1/rooms', options);
   }
 
-  /** Find existing room by externalId or create a new one. */
-  async findOrCreate(options: CreateRoomOptions): Promise<Room> {
-    return this.client.post<Room>('/api/v1/rooms/find-or-create', options);
+  /**
+   * Find an existing room by externalId, or create it.
+   *
+   * Returns the room and whether this call created it. It used to be declared
+   * as returning a Room while the server has always answered
+   * `{ room, created }`, so every field read as undefined at runtime with
+   * TypeScript reporting no problem.
+   */
+  async findOrCreate(options: CreateRoomOptions): Promise<FindOrCreateRoomResult> {
+    return this.client.post<FindOrCreateRoomResult>('/api/v1/rooms/find-or-create', options);
   }
 
   /** Get room by external ID. */
