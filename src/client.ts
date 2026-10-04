@@ -1,8 +1,12 @@
 import { RiviumChatConfig } from './types';
 import https from 'https';
 import http from 'http';
+import { SDK_NAME, SDK_VERSION } from './version';
 
 const BASE_URL = 'https://chat.rivium.co';
+
+/** Value of the `X-Rivium-SDK` header sent with every request: `node/<version>`. */
+export const SDK_HEADER_VALUE = `${SDK_NAME}/${SDK_VERSION}`;
 
 export class HttpClient {
   private apiKey: string;
@@ -39,6 +43,7 @@ export class HttpClient {
       'x-api-key': this.apiKey,
       'x-server-secret': this.serverSecret,
       'Content-Type': 'application/json',
+      'X-Rivium-SDK': SDK_HEADER_VALUE,
     };
 
     if (payload) {

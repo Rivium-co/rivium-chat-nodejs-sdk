@@ -46,3 +46,4 @@ export class RiviumChat {
 
 export { RiviumChatError } from './client';
 export * from './types';
+export { SDK_NAME, SDK_VERSION } from './version';

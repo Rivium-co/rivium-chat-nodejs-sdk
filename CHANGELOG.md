@@ -1,3 +1,7 @@
+## [0.2.1] - 2026-10-05
+
+- Added: requests send an `X-Rivium-SDK` header (`node/<version>`); `SDK_NAME` and `SDK_VERSION` are exported.
+
 ## [0.2.0] - 2026-09-26
 
 - Changed: `rooms.findOrCreate()` returns `{ room, created }`, which is what the
