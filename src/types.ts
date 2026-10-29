@@ -5,6 +5,12 @@ export interface RiviumChatConfig {
   apiKey: string;
   /** Your Rivium server secret — required for server-side operations */
   serverSecret: string;
+  /**
+   * Base URL of the Rivium Chat API (optional). Defaults to
+   * `https://chat.rivium.co`. Must use `https://`; plain `http://` is
+   * accepted only for `localhost` and `127.0.0.1`.
+   */
+  baseUrl?: string;
 }
 
 // ─── Enums / Literal Types ──────────────────────────────────────
@@ -65,6 +71,8 @@ export interface Room {
 
 export interface Message {
   id: string;
+  /** The `clientMessageId` the message was sent with, if any. */
+  clientMessageId?: string | null;
   roomId: string;
   senderUserId: string;
   type: MessageType;
@@ -200,6 +208,12 @@ export interface SendMessageOptions {
   attachments?: Attachment[];
   metadata?: Record<string, any>;
   replyToId?: string;
+  /**
+   * Your own id for this send (1-64 characters: letters, digits, `_`, `-`). Sending again with the same id for the
+   * same room and sender returns the message stored the first time instead of storing it twice, so a send can be
+   * retried safely after a timeout.
+   */
+  clientMessageId?: string;
 }
 
 export interface GetHistoryOptions {

@@ -1,3 +1,8 @@
+## [0.3.0] - 2026-10-30
+
+- Added: `baseUrl` option (defaults to the Rivium Chat API; `http://` is accepted only for `localhost`).
+- Added: `clientMessageId` on `messages.send()`: sending again with the same id returns the message stored the first time, so a send can be retried safely.
+
 ## [0.2.1] - 2026-10-05
 
 - Added: requests send an `X-Rivium-SDK` header (`node/<version>`); `SDK_NAME` and `SDK_VERSION` are exported.
