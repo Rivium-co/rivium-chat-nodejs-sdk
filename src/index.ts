@@ -26,7 +26,7 @@ export class RiviumChat {
   /** Webhook & push configuration */
   public webhooks: Webhooks;
 
-  /** Centrifugo connection tokens */
+  /** Realtime connection tokens */
   public tokens: Tokens;
 
   /** User tokens — verified identity for your client apps */

@@ -13,7 +13,7 @@ Server-side SDK for RiviumChat. Manage chat rooms, messages, reactions, pins, we
 - Message pinning
 - Webhook configuration
 - Push notification templates (via Rivium Push)
-- Centrifugo connection token generation
+- Realtime connection token generation
 - Zero runtime dependencies — uses native Node.js `http`/`https`
 - TypeScript declarations included
 
@@ -166,7 +166,7 @@ riviumChat.webhooks.removePushTemplates()                 // Remove per-event te
 ### Tokens
 
 ```typescript
-riviumChat.tokens.getConnectionToken({ userId, info? })  // Get Centrifugo token
+riviumChat.tokens.getConnectionToken({ userId, info? })  // Get a realtime connection token
 ```
 
 ## Push Notifications
